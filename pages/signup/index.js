@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
+import { useStore } from '../../components/context'
 import { addUser } from '../../components/context/actions/UserActions'
-import add from '../api/user/add'
+
 export default function SignUp() {
 
   const [firstName, setFirstName] = useState('')
@@ -8,6 +9,7 @@ export default function SignUp() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const[state, dispatch] = useStore();
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -15,9 +17,23 @@ export default function SignUp() {
     const formFields = {firstName, lastName, email, password}
 
     const res = await addUser(formFields)
-    console.log(res)
 
-    
+
+    if(res && res.user) {
+      dispatch({
+        type: 'USER_ADDED',
+        payload: res.user
+      })
+    }
+    else {
+      console.log(res)
+      dispatch({
+        type: 'USER_ERROR',
+        payload: res.error
+      })
+
+
+    }
   }
 
   return (

@@ -6,18 +6,16 @@ import User from "../../../datalayer/schema/User"
 
 export default async function handler(req, res) {
 	if (req.method === "POST") {
+
 		try {
 			const connected = await connectDB()
+
 			if (connected) {
 
-
 				const {email} = req.body
-
-
 				const userExists = await User.findOne({ email:email})
-				
 				if(userExists) {
-					res.status(200).json({ message: 'User already Exists' })
+					return res.status(500).json({ error: 'User already Exists' })
 				}
 
 				const {firstName, lastName, password} = req.body
@@ -29,15 +27,17 @@ export default async function handler(req, res) {
 					password
 				})
 
+
+
 				const salt = await bcrypt.genSalt(9)
-				const hasdedPassword = bcrypt.hash(password, salt)
-				res.status(200).json({ message: hasdedPassword })
+				const hashedPassword = await bcrypt.hash(password, salt)
+				user.password = hashedPassword
 
 				await user.save()
-				res.status(200).json({ message: "User Created" })
+				return res.status(200).json({ user})
 			}
 		} catch (error) {
-			res.status(500).json({ message: error.message })
+			return res.status(500).json({ error: error.message })
 		}
 	}
 }
