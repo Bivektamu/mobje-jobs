@@ -4,22 +4,30 @@ const reducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        error: 'User created',
+        alert: "User created",
         user: action.payload,
       };
 
-      case "USER_ERROR":
+    case "LOGGED_IN":
       return {
         ...state,
         loading: false,
-        error: action.payload
+        alert: "User Logged In",
+        user: action.payload,
+    };
+
+    case "USER_ERROR":
+      return {
+        ...state,
+        loading: false,
+        alert: action.payload,
       };
 
-      case "ERROR_HANDLED":
+    case "ERROR_HANDLED":
       return {
         ...state,
         loading: false,
-        error: ''
+        alert: "",
       };
 
     default:

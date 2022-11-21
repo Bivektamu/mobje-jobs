@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 				const userExists = await User.findOne({ email:email})
 				
 				if(userExists) {
-					res.status(500).json({ message: 'User already Exists' })
+					res.status(500).json({ error: 'User already Exists' })
 				}
 
 				const {firstName, lastName, password} = req.body
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 				throw ('Database error')
 			}
 		} catch (error) {
-			if(error) res.status(500).json({ message: error.message })
+			if(error) res.status(500).json({ error: error.message })
 		}
 	}
 }

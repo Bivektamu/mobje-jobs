@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs'
 import User from "../../../datalayer/schema/User"
 
 export default async function handler(req, res) {
-	if (req.method === "GET") {
+	if (req.method === "POST") {
 		try {
 			const connected = await connectDB()
 			if (connected) {
@@ -16,13 +16,13 @@ export default async function handler(req, res) {
 				const user = await User.findOne({ email:email})
 				
 				if(!user) {
-					return res.status(500).json({ message: 'User account not found' })
+					return res.status(500).json({ error: 'User account not found' })
 				}
 
 				const isMatch = await bcrypt.compare(password, user.password);
 
 				if(isMatch) {
-					return res.status(200).json(user)
+					return res.status(200).json({user: user})
 				}
 				else {
 					return res.status(500).json({ error: 'Password is incorrect' })

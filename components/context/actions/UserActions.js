@@ -1,36 +1,34 @@
-import axios from 'axios'
+import axios from "axios";
 
+export const addUser = async (formFields) => {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    const res = await axios.post("/api/user/add", formFields, headers);
 
-
- export const addUser = async (formFields) => {
-
-
-
-    const headers = {
-            'Content-Type': 'application/json'
+    if (res) {
+      return res.data;
     }
-    try {
+  } catch (error) {
+    return error.response.data;
+  }
 
-        const res = await axios.post(
-            '/api/user/add',
-            formFields,
-            headers
-        )
+  return "field recieved";
+};
 
-
-        if(res) {
-            console.log('asdf')
-            return res
-        }
-
-
-    } catch (error) {
-        console.log(error.response.data.error)
-        return (error.response.data)
+export const logInUser = async (formFields) => {
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    const res = await axios.post("/api/user/login", formFields, headers);
+    if (res) {
+      return res.data;
     }
+  } catch (error) {
+    if(error) return error.response.data;
+  }
 
-
-
-    return 'field recieved'
-
-}
+  return "field recieved";
+};

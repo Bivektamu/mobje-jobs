@@ -4,26 +4,26 @@ export const Alert = () => {
 
   const [state, dispatch] = useStore()
 
-  const [alert, setAlert] = useState('')
+  const [alertUi, setAlertUi] = useState('')
 
-  const {error} = state
+  const {alert} = state
 
 
 
   useEffect(() => {
-    setAlert(error)
-  }, [error])
+    setAlertUi(alert)
+  }, [alert])
 
 
-  if(error) {
+  if(alert) {
     setTimeout(() => {
       dispatch({
         type:'ERROR_HANDLED'
       })
-    }, 2000);
+    }, 500);
   }
 
   return (
-    <div>{alert}</div>    
+    <div>{alertUi}</div>    
   )
 }

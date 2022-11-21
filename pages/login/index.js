@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import { useStore } from '../../components/context'
 import { logInUser } from '../../components/context/actions/UserActions'
 
 
@@ -8,11 +9,30 @@ export default function LogIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const [state, dispatch] = useStore()
+
+
+  useEffect(() =>{
+    console.log(state)
+  }, [state])
+
 
   const onSubmit = async (e) => {
     e.preventDefault()
     const formFields = {email, password}
     const res = await logInUser(formFields)
+    if(res && res.user) {
+      dispatch({
+        type: 'LOGGED_IN',
+        payload: res.user
+      })
+    }
+    else {
+      dispatch({
+        type: 'USER_ERROR',
+        payload: res.error
+      })
+    }
 
   }
 
