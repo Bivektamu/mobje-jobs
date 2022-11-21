@@ -2,11 +2,14 @@
 import mongoose from "mongoose"
 
 export async function connectDB() {
+
 	if (process.env.DBTYPE === "MONGODB") {
+	console.log('global.dbConnected')
+
 		const username = process.env.USER_NAME
 		const password = process.env.PASSWORD
 		const dbName = process.env.DBNAME
-
+		console.log(global.dbConnected)
 
 		if (global.dbConnected === true) {
 			console.log("DB already connected")
@@ -14,6 +17,7 @@ export async function connectDB() {
 		}
 
 		const uri = `mongodb+srv://${username}:${password}@${dbName}.9mppcaj.mongodb.net/?retryWrites=true&w=majority`
+		console.log(uri)
 		try {
 			await mongoose.connect(uri)
 			console.log("DB Connected")
