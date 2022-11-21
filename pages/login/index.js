@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { useStore } from '../../components/context'
-import { logInUser } from '../../components/context/actions/UserActions'
-
+// import { logInUser } from '../../components/context/actions/UserActions'
+import {useSession, signIn} from 'next-auth/react'
 
 
 export default function LogIn() {
@@ -11,28 +11,36 @@ export default function LogIn() {
 
   const [state, dispatch] = useStore()
 
+  const {data: session} = useSession()
 
   useEffect(() =>{
-    console.log(state)
-  }, [state])
+    console.log(session)
+  }, [])
 
 
   const onSubmit = async (e) => {
     e.preventDefault()
     const formFields = {email, password}
-    const res = await logInUser(formFields)
-    if(res && res.user) {
-      dispatch({
-        type: 'LOGGED_IN',
-        payload: res.user
-      })
+
+    const res = await signIn('credentials', formFields)
+
+    if(res) {
+      console.log(res)
     }
-    else {
-      dispatch({
-        type: 'USER_ERROR',
-        payload: res.error
-      })
-    }
+
+    // const res = await logInUser(formFields)
+    // if(res && res.user) {
+    //   dispatch({
+    //     type: 'LOGGED_IN',
+    //     payload: res.user
+    //   })
+    // }
+    // else {
+    //   dispatch({
+    //     type: 'USER_ERROR',
+    //     payload: res.error
+    //   })
+    // }
 
   }
 
