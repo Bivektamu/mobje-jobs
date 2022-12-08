@@ -11,18 +11,19 @@ export default function LogIn() {
 
   const [state, dispatch] = useStore()
 
-  const {data: session} = useSession()
+  const { data: session, status } = useSession()
 
-  useEffect(() =>{
+  useEffect(() => {
     console.log(session)
-  }, [])
-
+  
+  }, [session, status])
+  
 
   const onSubmit = async (e) => {
     e.preventDefault()
     const formFields = {email, password}
 
-    const res = await signIn('credentials', formFields)
+    const res = await signIn('credentials', {...formFields, redirect: false})
 
     if(res) {
       console.log(res)
