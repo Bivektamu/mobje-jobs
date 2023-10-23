@@ -20,7 +20,7 @@ export const authOptions = {
             throw new Error('Failed to connect to the database');
           }
 
-          const { email, password } = credentials;
+          const { email, password } = req;
 
           const user = await User.findOne({ email });
           if (!user) {
@@ -42,10 +42,10 @@ export const authOptions = {
       },
     }),
   ],
-//   secret:process.env.JWT_SECRET,
-//     pages: {
-//       signIn:'/login'
-//     },
+  secret:process.env.JWT_SECRET,
+    pages: {
+      signIn:'/login'
+    },
   callbacks: {
     async jwt({ token, user, account }) {
       if (user) {

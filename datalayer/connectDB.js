@@ -4,7 +4,6 @@ import mongoose from "mongoose"
 export async function connectDB() {
 
 	if (process.env.DBTYPE === "MONGODB") {
-
 		const username = process.env.USER_NAME
 		const password = process.env.PASSWORD
 		const dbName = process.env.DBNAME
@@ -21,6 +20,7 @@ export async function connectDB() {
 			console.log("DB Connected")
 			return (global.dbConnected = true)
 		} catch (error) {
+			console.log(error.message)
 			return (global.dbConnected = false)
 		}
 	}

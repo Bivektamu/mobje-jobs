@@ -10,25 +10,28 @@ export default function LogIn() {
   const [password, setPassword] = useState('')
 
   const [state, dispatch] = useStore()
-
   const { data: session, status } = useSession()
-
   useEffect(() => {
     console.log(session)
   
   }, [session, status])
-  
 
   const onSubmit = async (e) => {
     e.preventDefault()
     const formFields = {email, password}
+ 
+    try {
+      const res = await signIn('credentials', {...formFields, redirect: false})
+      if(res.error) {
+        throw new Error(res.error)
+      }
+      console.group(res)
 
-    const res = await signIn('credentials', {...formFields, redirect: false})
-
-    if(res) {
-      console.log(res)
+    } catch (error) {
+      console.log(error.message)
     }
 
+    // 
     // const res = await logInUser(formFields)
     // if(res && res.user) {
     //   dispatch({
