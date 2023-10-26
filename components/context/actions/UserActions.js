@@ -49,14 +49,14 @@ export const deletaAll = async () => {
 };
 
 export const getUserById = async (id) => {
-  console.log('id', id)
   try {
-    const res = await axios.get('/api/user/');
+    const res = await axios.get(`/api/user/${id}`);
     if (res) {
       return res.data;
     }
   } catch (error) {
-    if(error) return error.response.data;
+    console.log('error')
+    if(error) return error;
   }
 
 };

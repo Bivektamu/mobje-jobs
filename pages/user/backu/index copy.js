@@ -1,5 +1,4 @@
-import { getUserById, getUserIds } from "../../components/context/actions/UserActions";
-
+import { getUserById } from "../../../components/context/actions/UserActions";
 
 export async function getStaticPaths() {
 
@@ -36,10 +35,9 @@ export async function getStaticProps({ params }) {
   //   throw new Error('User not found')
   // }
 
-
 }
-
-const Page = (props) => {
+const Page = ({params}) => {
+    console.log(params)
   return <div>Page</div>;
 };
 
