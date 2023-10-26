@@ -1,6 +1,8 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useStore } from '../../components/context'
-import { addUser } from '../../components/context/actions/UserActions'
+import { addUser, deletaAll } from '../../components/context/actions/UserActions'
+import { useRouter } from 'next/navigation';
+
 
 export default function SignUp() {
 
@@ -8,8 +10,32 @@ export default function SignUp() {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
+  const { push } = useRouter();
   const[state, dispatch] = useStore();
+
+  useEffect(()=>{
+
+    async function deleteAll() {
+
+    const res = await deletaAll()
+    if(res) {
+      dispatch({
+        type: 'ALL_USER_DELETED',
+        payload: res.user
+      })
+    }
+    else {
+      console.log(res)
+      dispatch({
+        type: 'USER_ERROR',
+        payload: res.error
+      })
+    }
+  }
+
+  // deleteAll()
+
+  }, [])
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -24,6 +50,8 @@ export default function SignUp() {
         type: 'USER_ADDED',
         payload: res.user
       })
+
+      push('/login')
     }
     else {
       console.log(res)

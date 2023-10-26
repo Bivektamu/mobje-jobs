@@ -2,18 +2,20 @@ import { connectDB } from "../../../datalayer/connectDB";
 import User from "../../../datalayer/schema/User";
 
 export default async function handler(req, res) {
-  console.log('hi')
-  
   if (req.method === "GET") {
-
     try {
+      console.log('asdf')
       const isConnected = await connectDB();
       if (isConnected) {
-        const users = await User.find();
-        res.status(200).json({ Users: users });
+        const user = await User.find(req.id);
+        console.log(user)
+        if(user)
+          res.status(200).json({ user: user });
+        else
+          throw new Error('User not found')
       }
       else {
-        throw ('Database Error')
+        throw new Error('Database Error')
       }
 
     } catch (error) {

@@ -20,7 +20,7 @@ export const Alert = () => {
       dispatch({
         type:'ERROR_HANDLED'
       })
-    }, 500);
+    }, 1000);
   }
 
   return (

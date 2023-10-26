@@ -8,6 +8,15 @@ const reducer = (state, action) => {
         user: action.payload,
       };
 
+
+    case "ALL_USER_DELETED":
+      return {
+        ...state,
+        loading: false,
+        alert: "All Users deleted",
+        user: action.payload,
+      };
+
     case "LOGGED_IN":
       return {
         ...state,
